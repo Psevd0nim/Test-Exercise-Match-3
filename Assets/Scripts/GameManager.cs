@@ -6,31 +6,56 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] playableCubes;
-    private Point[] points = new Point[40];
+    //private Point[] points = new Point[40];
+    private Point[,] points = new Point[8,5];
+
+    //private void Start()
+    //{
+    //    float y = 0.5f;
+    //    int number = 0;
+    //    for (int i = 0; i < 8; i++)
+    //    {
+    //        float x = 0.5f;
+    //        for (int n = 0; n < 5; n++)
+    //        {
+    //            points[number] = new Point(new Vector3(x++, y, 0));
+    //            number++;
+    //        }
+    //        y++;
+    //    }
+    //    SpawnCubes();
+    //}
 
     private void Start()
     {
-        float y = 0.5f;
-        int number = 0;
-        for (int i = 0; i < 8; i++)
+        for(int y = 0; y < points.GetLength(0); y++)
         {
-            float x = 0.5f;
-            for (int n = 0; n < 5; n++)
-            {
-                points[number] = new Point(new Vector3(x++, y, 0));
-                number++;
+            for(int x = 0;  x < points.GetLength(1); x++)
+            { 
+                points[y,x] = new Point(new Vector3(x + 0.5f, y + 0.5f, 0));
             }
-            y++;
         }
         SpawnCubes();
     }
 
+    //void SpawnCubes()
+    //{
+    //    for (int i = 0; i < points.Length; i++)
+    //    {
+    //        var rnd = Random.Range(0, 5);
+    //        Instantiate(playableCubes[rnd], points[i].position, playableCubes[rnd].transform.rotation);
+    //    }
+    //}
+
     void SpawnCubes()
     {
-        for (int i = 0; i < points.Length; i++)
+        for (int y = 0; y < points.GetLength(0); y++)
         {
-            var rnd = Random.Range(0, 5);
-            Instantiate(playableCubes[rnd], points[i].position, playableCubes[rnd].transform.rotation);
+            for (int x = 0; x < points.GetLength(1); x++)
+            {
+                var rnd = Random.Range(0, 5);
+                Instantiate(playableCubes[rnd], points[y,x].position, playableCubes[rnd].transform.rotation);
+            }
         }
     }
 
