@@ -6,8 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] playableCubes;
-    //private Point[] points = new Point[40];
-    private Point[,] points = new Point[8,5];
+    public Point[,] points = new Point[8, 5];
+    private bool areaNotFull;
+
 
     //private void Start()
     //{
@@ -26,17 +27,19 @@ public class GameManager : MonoBehaviour
     //    SpawnCubes();
     //}
 
-    private void Start()
-    {
-        for(int y = 0; y < points.GetLength(0); y++)
-        {
-            for(int x = 0;  x < points.GetLength(1); x++)
-            { 
-                points[y,x] = new Point(new Vector3(x + 0.5f, y + 0.5f, 0));
-            }
-        }
-        SpawnCubes();
-    }
+    //private void Start()
+    //{
+    //    for(int y = 0; y < points.GetLength(0); y++)
+    //    {
+    //        for(int x = 0;  x < points.GetLength(1); x++)
+    //        { 
+    //            points[y,x] = new Point(new Vector3(x + 0.5f, y + 0.5f, 0));
+    //        }
+    //    }
+    //    SpawnCubes();
+    //}
+
+
 
     //void SpawnCubes()
     //{
@@ -46,6 +49,59 @@ public class GameManager : MonoBehaviour
     //        Instantiate(playableCubes[rnd], points[i].position, playableCubes[rnd].transform.rotation);
     //    }
     //}
+    private void Start()
+    {
+        for (int y = 0; y < points.GetLength(0); y++)
+        {
+            for (int x = 0; x < points.GetLength(1); x++)
+            {
+                    points[y, x] = new Point(new Vector3(x, y, 0));
+            }
+        }
+        for (int y = 0; y < points.GetLength(0)-1; y++)
+        {
+            for (int x = 0; x < points.GetLength(1); x++)
+            {
+                points[y, x].upperPoint = points[y+1, x];
+            }
+        }
+
+
+        SpawnCubes();
+    }
+
+    private void Update()
+    {
+        foreach(var point in points)
+        {
+            if (point.freeSpace)
+            {
+                areaNotFull = true;
+            }
+        }
+        
+        
+        if (areaNotFull)
+        {
+            foreach(var point in points)
+            {
+                if (point.freeSpace && point.position.y == 7f)
+                {
+                    var rnd = Random.Range(0, 5);
+                    point.cube = Instantiate(playableCubes[rnd], point.position + new Vector3(0,1,0), playableCubes[rnd].transform.rotation);
+                    point.cube.transform.DOMove(point.position, 1f);
+                    point.freeSpace = false;
+                }
+                if (point.freeSpace)
+                {
+                    point.SetNewCube();
+                }
+            }
+            areaNotFull = false;
+        }
+    }
+
+    
 
     void SpawnCubes()
     {
@@ -54,18 +110,30 @@ public class GameManager : MonoBehaviour
             for (int x = 0; x < points.GetLength(1); x++)
             {
                 var rnd = Random.Range(0, 5);
-                Instantiate(playableCubes[rnd], points[y,x].position, playableCubes[rnd].transform.rotation);
+                points[y, x].cube = Instantiate(playableCubes[rnd], points[y, x].position, playableCubes[rnd].transform.rotation);
             }
         }
     }
 
-    class Point
+    public class Point
     {
         public Vector3 position { get; private set; }
-        private bool freeSpace;
+        public bool freeSpace;
+        public GameObject cube;
+        public Point upperPoint;
+
         public Point(Vector3 position)
         {
             this.position = position;
+        }
+
+        public void SetNewCube()
+        {
+            cube = upperPoint.cube;
+            upperPoint.cube = null;
+            cube.transform.DOMove(position, 1f);
+            upperPoint.freeSpace = true;
+            freeSpace = false;
         }
     }
 }
