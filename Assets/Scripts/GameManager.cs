@@ -30,19 +30,31 @@ public class GameManager : MonoBehaviour
         SpawnCubes();
     }
 
-    private void Update()
+    void SpawnCubes()
     {
-        foreach (var point in points)
+        for (int y = 0; y < points.GetLength(0); y++)
         {
-            if (point.freeSpace)
+            for (int x = 0; x < points.GetLength(1); x++)
             {
-                areaNotFull = true;
+                var rnd = Random.Range(0, 5);
+                points[y, x].cube = Instantiate(playableCubes[rnd], points[y, x].position, playableCubes[rnd].transform.rotation);
             }
         }
+    }
+
+    private void Update()
+    {
+        //foreach (var point in points)
+        //{
+        //    if (point.freeSpace)
+        //    {
+        //        areaNotFull = true;
+        //    }
+        //}
 
 
-        if (areaNotFull)
-        {
+        //if (areaNotFull)
+        //{
             foreach (var point in points)
             {
                 if (point.freeSpace && point.position.y == 7f)
@@ -57,23 +69,14 @@ public class GameManager : MonoBehaviour
                     point.SetNewCube();
                 }
             }
-            areaNotFull = false;
-        }
+            //areaNotFull = false;
+
+        //}
     }
 
 
 
-    void SpawnCubes()
-    {
-        for (int y = 0; y < points.GetLength(0); y++)
-        {
-            for (int x = 0; x < points.GetLength(1); x++)
-            {
-                var rnd = Random.Range(0, 5);
-                points[y, x].cube = Instantiate(playableCubes[rnd], points[y, x].position, playableCubes[rnd].transform.rotation);
-            }
-        }
-    }
+    
 
     public class Point
     {
@@ -89,11 +92,23 @@ public class GameManager : MonoBehaviour
 
         public void SetNewCube()
         {
-            cube = upperPoint.cube;
-            upperPoint.cube = null;
-            cube.transform.DOMove(position, 1f);
-            upperPoint.freeSpace = true;
-            freeSpace = false;
+            Point tempPoint = upperPoint;
+            while (true)
+            {
+                if (tempPoint.cube == null)
+                {
+                    tempPoint = tempPoint.upperPoint;
+                }
+                else
+                {
+                    cube = upperPoint.cube;
+                    upperPoint.cube = null;
+                    cube.transform.DOMove(position, 1f);
+                    upperPoint.freeSpace = true;
+                    freeSpace = false;
+                    break;
+                }
+            }
         }
     }
 
