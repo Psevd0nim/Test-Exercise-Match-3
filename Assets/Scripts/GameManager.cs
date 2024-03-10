@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] playableCubes;
+    [SerializeField] private GameObject[] IsometricCubes;
+    [SerializeField] private GameObject[] DiceCubes;
     public Point[,] points = new Point[8, 5];
     int count = 0;
 
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
             for (int x = 0; x < points.GetLength(1); x++)
             {
                 var rnd = Random.Range(0, 5);
-                points[y, x].cube = Instantiate(playableCubes[rnd], points[y, x].position, playableCubes[rnd].transform.rotation);
+                points[y, x].cube = Instantiate(IsometricCubes[rnd], points[y, x].position, IsometricCubes[rnd].transform.rotation);
             }
         }
     }
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviour
             if (point.freeSpace && point.position.y == 7f)
             {
                 var rnd = Random.Range(0, 5);
-                point.cube = Instantiate(playableCubes[rnd], point.position + new Vector3(0, 1, 0), playableCubes[rnd].transform.rotation);
+                point.cube = Instantiate(IsometricCubes[rnd], point.position + new Vector3(0, 1, 0), IsometricCubes[rnd].transform.rotation);
                 point.cube.transform.DOMove(point.position, 1f);
                 point.freeSpace = false;
             }
@@ -128,12 +129,15 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-        if( gameObjectToDestroy.Count > 1)
-        foreach (var c in gameObjectToDestroy)
+        if (gameObjectToDestroy.Count > 1)
         {
-            var pos = c.transform.position;
-            Destroy(c);
-            points[(int)pos.y, (int)pos.x].freeSpace = true;
+            
+            foreach (var c in gameObjectToDestroy)
+            {
+                var pos = c.transform.position;
+                Destroy(c);
+                points[(int)pos.y, (int)pos.x].freeSpace = true;
+            }
         }
 
     }
