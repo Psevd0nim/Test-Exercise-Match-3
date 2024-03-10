@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] playableCubes;
     public Point[,] points = new Point[8, 5];
-    private bool areaNotFull;
     int count = 0;
 
     private void Start()
@@ -42,41 +41,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        //foreach (var point in points)
-        //{
-        //    if (point.freeSpace)
-        //    {
-        //        areaNotFull = true;
-        //    }
-        //}
-
-
-        //if (areaNotFull)
-        //{
-            foreach (var point in points)
+        foreach (var point in points)
+        {
+            if (point.freeSpace && point.position.y == 7f)
             {
-                if (point.freeSpace && point.position.y == 7f)
-                {
-                    var rnd = Random.Range(0, 5);
-                    point.cube = Instantiate(playableCubes[rnd], point.position + new Vector3(0, 1, 0), playableCubes[rnd].transform.rotation);
-                    point.cube.transform.DOMove(point.position, 1f);
-                    point.freeSpace = false;
-                }
-                if (point.freeSpace)
-                {
-                    point.SetNewCube();
-                }
+                var rnd = Random.Range(0, 5);
+                point.cube = Instantiate(playableCubes[rnd], point.position + new Vector3(0, 1, 0), playableCubes[rnd].transform.rotation);
+                point.cube.transform.DOMove(point.position, 1f);
+                point.freeSpace = false;
             }
-            //areaNotFull = false;
-
-        //}
+            else if (point.freeSpace)
+            {
+                point.SetNewCube();
+            }
+        }
     }
-
-
-
-    
 
     public class Point
     {
@@ -97,14 +78,15 @@ public class GameManager : MonoBehaviour
             {
                 if (tempPoint.cube == null)
                 {
+                    if (tempPoint.position.y == 7) break;
                     tempPoint = tempPoint.upperPoint;
                 }
                 else
                 {
-                    cube = upperPoint.cube;
-                    upperPoint.cube = null;
+                    cube = tempPoint.cube;
+                    tempPoint.cube = null;
                     cube.transform.DOMove(position, 1f);
-                    upperPoint.freeSpace = true;
+                    tempPoint.freeSpace = true;
                     freeSpace = false;
                     break;
                 }
@@ -115,10 +97,6 @@ public class GameManager : MonoBehaviour
     public void GameCondition(GameObject gameObjectCube)
     {
         DoIt(gameObjectCube);
-        //var pos = gameObjectCube.transform.position;
-        //Destroy(gameObjectCube);
-        //points[(int)pos.y, (int)pos.x].freeSpace = true;
-
     }
 
     void DoIt(GameObject gameObjectCube)
@@ -150,6 +128,7 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+        if( gameObjectToDestroy.Count > 1)
         foreach (var c in gameObjectToDestroy)
         {
             var pos = c.transform.position;

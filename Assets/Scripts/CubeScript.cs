@@ -11,6 +11,10 @@ public class CubeScript : MonoBehaviour
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
+    private void Update()
+    {
+        
+    }
 
     private void OnMouseDown()
     {
