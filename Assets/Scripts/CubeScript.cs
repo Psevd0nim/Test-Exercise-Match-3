@@ -6,6 +6,8 @@ using UnityEngine;
 public class CubeScript : MonoBehaviour
 {
     public GameManager _gameManager;
+    public int X;
+    public int Y;
 
     private void Start()
     {

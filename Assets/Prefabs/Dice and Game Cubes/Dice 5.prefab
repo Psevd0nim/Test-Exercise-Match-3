@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4665526079642295989}
   - component: {fileID: 6237014939857500532}
   m_Layer: 0
-  m_Name: YellowCube
+  m_Name: Dice 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,3 +144,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 0}
+  X: 0
+  Y: 0

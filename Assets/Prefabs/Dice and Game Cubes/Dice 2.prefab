@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 505799465344750882}
   - component: {fileID: -2443073934554891732}
   m_Layer: 0
-  m_Name: GreenCube
+  m_Name: Dice 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,3 +144,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameManager: {fileID: 0}
+  X: 0
+  Y: 0
