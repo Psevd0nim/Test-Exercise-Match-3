@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private float yStep;
     private GameObject[] tempGameObjects;
     private MainSceneUI mainSceneUI;
+    private float timeToDeath = 0.7f;
+    private bool CubesDestroyed;
 
 
     private void Start()
@@ -129,7 +131,8 @@ public class GameManager : MonoBehaviour
         foreach (var c in gameObjectToDestroy)
         {
             var value = c.GetComponent<CubeScript>();
-            Destroy(c);
+            //Destroy(c);
+            value.DestroyCube();
             points[value.Y, value.X].freeSpace = true;
             pointPerUnit += 5;
         }

@@ -9,16 +9,12 @@ public class CubeScript : MonoBehaviour
     public int X;
     public int Y;
     private SpriteRenderer _spriteRenderer;
-    private bool canShake = true;
+    private GameObject Particle;
 
     private void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-    }
-    private void Update()
-    {
-        
     }
 
     private void OnMouseDown()
@@ -29,19 +25,17 @@ public class CubeScript : MonoBehaviour
 
     void WrongChoose()
     {
-        float time = 1f;
-        if (canShake)
+        if (_gameManager.points[Y, X].position == gameObject.transform.position)
         {
-            gameObject.transform.DOShakePosition(time, randomness: 10, strength: 0.2f);
+            gameObject.transform.DOShakePosition(1f, randomness: 10, strength: 0.1f);
             //gameObject.transform.DOShakeRotation(1f);
-            canShake = false;
-            StartCoroutine(WaitToShakeAgain(time));
         }
     }
 
-    IEnumerator WaitToShakeAgain(float time)
+    public void DestroyCube()
     {
-        yield return new WaitForSeconds(time);
-        canShake = true;
+        gameObject.transform.DOScale(0.01f, 0.7f).SetLink(gameObject);
+        //Instantiate(Particle, gameObject.transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }
