@@ -16,10 +16,12 @@ public class GameManager : MonoBehaviour
     private float xStep;
     private float yStep;
     private GameObject[] tempGameObjects;
+    private MainSceneUI mainSceneUI;
 
 
     private void Start()
     {
+        mainSceneUI = GameObject.Find("Canvas").GetComponent<MainSceneUI>();
         tempGameObjects = GameCubes;
         xStep = (RightUp.transform.position.x - LeftDown.transform.position.x) / 5;
         yStep = (RightUp.transform.position.y - LeftDown.transform.position.y) / 8;
@@ -42,14 +44,6 @@ public class GameManager : MonoBehaviour
             if(point.Y != 7)
                 point.upperPoint = points[point.Y + 1, point.X];
         }
-
-        //for (int y = 0; y < points.GetLength(0) - 1; y++)
-        //{
-        //    for (int x = 0; x < points.GetLength(1); x++)
-        //    {
-        //        points[y, x].upperPoint = points[y + 1, x];
-        //    }
-        //}
 
         SpawnCubes();
     }
@@ -92,51 +86,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public class Point
-    {
-        public Vector3 position { get; private set; }
-        public bool freeSpace;
-        public GameObject cube;
-        public Point upperPoint;
-        public int X { get; private set; }
-        public int Y { get; private set; }
-
-        public Point(Vector3 position, int x, int y)
-        {
-            this.position = position;
-            this.X = x;
-            this.Y = y;
-        }
-
-        public void SetNewCube()
-        {
-            Point tempPoint = upperPoint;
-            float timeStep = 1f;
-            while (true)
-            {
-                if (tempPoint.cube == null)
-                {
-                    if (tempPoint.Y == 7) break;
-                    tempPoint = tempPoint.upperPoint;
-                }
-                else
-                {
-                    cube = tempPoint.cube;
-                    {
-                        var value = cube.GetComponent<CubeScript>();
-                        value.X = X;
-                        value.Y = Y;
-                    }
-                    tempPoint.cube = null;
-                    cube.transform.DOMove(position, timeStep);
-                    tempPoint.freeSpace = true;
-                    freeSpace = false;
-                    break;
-                }
-            }
-        }
-    }
-
     public void GameCondition(GameObject gameObjectCube)
     {
         DoIt(gameObjectCube);
@@ -174,13 +123,15 @@ public class GameManager : MonoBehaviour
         }
         if (gameObjectToDestroy.Count > 1)
         {
-
+            int pointPerUnit = 5;
             foreach (var c in gameObjectToDestroy)
             {
                 var value = c.GetComponent<CubeScript>();
                 Destroy(c);
                 points[value.Y, value.X].freeSpace = true;
+                pointPerUnit += 5;
             }
+            mainSceneUI.UpdateScore(pointPerUnit* gameObjectToDestroy.Count);
         }
 
     }
