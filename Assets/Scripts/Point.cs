@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class Point
@@ -39,7 +40,7 @@ public class Point
                         value.Y = Y;
                     }
                     tempPoint.cube = null;
-                    cube.transform.DOMove(position, timeStep);
+                    cube.transform.DOMove(position, timeStep).SetLink(cube);
                     tempPoint.freeSpace = true;
                     freeSpace = false;
                     break;

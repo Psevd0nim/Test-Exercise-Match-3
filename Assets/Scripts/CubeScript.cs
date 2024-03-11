@@ -9,6 +9,7 @@ public class CubeScript : MonoBehaviour
     public int X;
     public int Y;
     private SpriteRenderer _spriteRenderer;
+    private bool canShake = true;
 
     private void Start()
     {
@@ -22,6 +23,25 @@ public class CubeScript : MonoBehaviour
 
     private void OnMouseDown()
     {
-        _gameManager.GameCondition(gameObject);
+        if(_gameManager.GameCondition(gameObject))
+            WrongChoose();
+    }
+
+    void WrongChoose()
+    {
+        float time = 1f;
+        if (canShake)
+        {
+            gameObject.transform.DOShakePosition(time, randomness: 10, strength: 0.2f);
+            //gameObject.transform.DOShakeRotation(1f);
+            canShake = false;
+            StartCoroutine(WaitToShakeAgain(time));
+        }
+    }
+
+    IEnumerator WaitToShakeAgain(float time)
+    {
+        yield return new WaitForSeconds(time);
+        canShake = true;
     }
 }

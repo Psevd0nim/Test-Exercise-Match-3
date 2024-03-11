@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
                     value.X = point.X;
                     value.Y = point.Y;
                 }
-                point.cube.transform.DOMove(point.position, 1f);
+                point.cube.transform.DOMove(point.position, 1f).SetLink(point.cube);
                 point.freeSpace = false;
             }
             else if (point.freeSpace)
@@ -86,12 +86,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameCondition(GameObject gameObjectCube)
-    {
-        DoIt(gameObjectCube);
-    }
+    
 
-    void DoIt(GameObject gameObjectCube)
+    public bool GameCondition(GameObject gameObjectCube)
     {
         var colorCube = gameObjectCube.GetComponent<SpriteRenderer>().color;
         var gameObjectToDestroy = new List<GameObject>();
@@ -101,11 +98,8 @@ public class GameManager : MonoBehaviour
             var value = gameObjectToDestroy[count].GetComponent<CubeScript>();
             int x = value.X;
             int y = value.Y;
-
             var gameObjectCubes = new List<GameObject>();
-
             CollectCrossGameObjects(gameObjectCubes, x, y);
-
             foreach (var c in gameObjectCubes)
             {
                 if (c.GetComponent<SpriteRenderer>().color == colorCube)
@@ -123,18 +117,26 @@ public class GameManager : MonoBehaviour
         }
         if (gameObjectToDestroy.Count > 1)
         {
-            int pointPerUnit = 5;
-            foreach (var c in gameObjectToDestroy)
-            {
-                var value = c.GetComponent<CubeScript>();
-                Destroy(c);
-                points[value.Y, value.X].freeSpace = true;
-                pointPerUnit += 5;
-            }
-            mainSceneUI.UpdateScore(pointPerUnit* gameObjectToDestroy.Count);
+            DestroyCubes(gameObjectToDestroy);
+            return false;
         }
-
+        return true;
     }
+
+    void DestroyCubes(List<GameObject> gameObjectToDestroy)
+    {
+        int pointPerUnit = 5;
+        foreach (var c in gameObjectToDestroy)
+        {
+            var value = c.GetComponent<CubeScript>();
+            Destroy(c);
+            points[value.Y, value.X].freeSpace = true;
+            pointPerUnit += 5;
+        }
+        mainSceneUI.UpdateScore(pointPerUnit * gameObjectToDestroy.Count);
+    }
+
+
     void CollectCrossGameObjects(List<GameObject> gameObjectCubes, int x, int y)
     {
         int currentIteration = 0;
