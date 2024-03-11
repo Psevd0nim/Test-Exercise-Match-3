@@ -17,8 +17,6 @@ public class GameManager : MonoBehaviour
     private float yStep;
     private GameObject[] tempGameObjects;
     private MainSceneUI mainSceneUI;
-    private float timeToDeath = 0.7f;
-    private bool CubesDestroyed;
 
 
     private void Start()
