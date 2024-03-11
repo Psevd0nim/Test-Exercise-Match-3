@@ -294,6 +294,12 @@ MonoBehaviour:
   - {fileID: 7667799294051991843, guid: 1ebf271df223bac4bbb6fd99059f069b, type: 3}
   - {fileID: 7696895411697846444, guid: fe131b38a43d63b439b6ffc7ab5949a3, type: 3}
   - {fileID: 4269260399504475940, guid: e17afa8480204fb48930de65db0fd28c, type: 3}
+  GameCubes:
+  - {fileID: 15976878018536827, guid: ece053cb054248e4d9cc51727688ca08, type: 3}
+  - {fileID: 5058548484927332601, guid: 7577debb5d050774989d7bce598f5532, type: 3}
+  - {fileID: 7667799294051991843, guid: 9ea38a3cd96c0f54c884c6339b115344, type: 3}
+  - {fileID: 7696895411697846444, guid: 3fbe42dc73df3244194d6d318d53b961, type: 3}
+  - {fileID: 4269260399504475940, guid: b12cec742a38b4e4696e751397ddf04e, type: 3}
   LeftDown: {fileID: 1041051914}
   RightUp: {fileID: 90359751}
 --- !u!1 &1041051914

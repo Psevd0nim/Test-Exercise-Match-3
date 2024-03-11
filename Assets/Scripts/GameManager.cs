@@ -8,22 +8,23 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] IsometricCubes;
     [SerializeField] private GameObject[] DiceCubes;
+    [SerializeField] private GameObject[] GameCubes;
     public Point[,] points = new Point[8, 5];
     int count = 0;
     public GameObject LeftDown;
     public GameObject RightUp;
     private float xStep;
     private float yStep;
+    private GameObject[] tempGameObjects;
 
 
     private void Start()
     {
+        tempGameObjects = GameCubes;
         xStep = (RightUp.transform.position.x - LeftDown.transform.position.x) / 5;
         yStep = (RightUp.transform.position.y - LeftDown.transform.position.y) / 8;
         float xTemp = LeftDown.transform.position.x - (xStep/2);
         float yTemp = LeftDown.transform.position.y - (yStep/2);
-
-
 
         for (int y = 0; y < points.GetLength(0); y++)
         {
@@ -35,13 +36,21 @@ public class GameManager : MonoBehaviour
             }
             xTemp = LeftDown.transform.position.x - (xStep / 2);
         }
-        for (int y = 0; y < points.GetLength(0) - 1; y++)
+
+        foreach(var point in points)
         {
-            for (int x = 0; x < points.GetLength(1); x++)
-            {
-                points[y, x].upperPoint = points[y + 1, x];
-            }
+            if(point.Y != 7)
+                point.upperPoint = points[point.Y + 1, point.X];
         }
+
+        //for (int y = 0; y < points.GetLength(0) - 1; y++)
+        //{
+        //    for (int x = 0; x < points.GetLength(1); x++)
+        //    {
+        //        points[y, x].upperPoint = points[y + 1, x];
+        //    }
+        //}
+
         SpawnCubes();
     }
 
@@ -52,46 +61,13 @@ public class GameManager : MonoBehaviour
             for (int x = 0; x < points.GetLength(1); x++)
             {
                 var rnd = Random.Range(0, 5);
-                points[y, x].cube = Instantiate(IsometricCubes[rnd], points[y, x].position, IsometricCubes[rnd].transform.rotation);
+                points[y, x].cube = Instantiate(tempGameObjects[rnd], points[y, x].position, tempGameObjects[rnd].transform.rotation);
                 var value = points[y, x].cube.GetComponent<CubeScript>();
                 value.X = x;
                 value.Y = y;
             }
         }
     }
-
-    //private void Start()
-    //{
-    //    for (int y = 0; y < points.GetLength(0); y++)
-    //    {
-    //        for (int x = 0; x < points.GetLength(1); x++)
-    //        {
-    //            points[y, x] = new Point(new Vector3(x, y, 0), x, y);
-    //        }
-    //    }
-    //    for (int y = 0; y < points.GetLength(0) - 1; y++)
-    //    {
-    //        for (int x = 0; x < points.GetLength(1); x++)
-    //        {
-    //            points[y, x].upperPoint = points[y + 1, x];
-    //        }
-    //    }
-    //    SpawnCubes();
-    //}
-
-    //void SpawnCubes()
-    //{
-    //    for (int y = 0; y < points.GetLength(0); y++)
-    //    {
-    //        for (int x = 0; x < points.GetLength(1); x++)
-    //        {
-    //            var rnd = Random.Range(0, 5);
-    //            points[y, x].cube = Instantiate(IsometricCubes[rnd], points[y, x].position, IsometricCubes[rnd].transform.rotation);
-    //        }
-    //    }
-    //}
-
-
 
     private void LateUpdate()
     {
@@ -100,7 +76,7 @@ public class GameManager : MonoBehaviour
             if (point.freeSpace && point.Y == 7)
             {
                 var rnd = Random.Range(0, 5);
-                point.cube = Instantiate(IsometricCubes[rnd], point.position + new Vector3(0, 1, 0), IsometricCubes[rnd].transform.rotation);
+                point.cube = Instantiate(tempGameObjects[rnd], point.position + new Vector3(0, 1, 0), tempGameObjects[rnd].transform.rotation);
                 {
                     var value = point.cube.GetComponent<CubeScript>();
                     value.X = point.X;
@@ -135,6 +111,7 @@ public class GameManager : MonoBehaviour
         public void SetNewCube()
         {
             Point tempPoint = upperPoint;
+            float timeStep = 1f;
             while (true)
             {
                 if (tempPoint.cube == null)
@@ -151,7 +128,7 @@ public class GameManager : MonoBehaviour
                         value.Y = Y;
                     }
                     tempPoint.cube = null;
-                    cube.transform.DOMove(position, 1f);
+                    cube.transform.DOMove(position, timeStep);
                     tempPoint.freeSpace = true;
                     freeSpace = false;
                     break;
@@ -207,49 +184,6 @@ public class GameManager : MonoBehaviour
         }
 
     }
-
-    //void DoIt(GameObject gameObjectCube)
-    //{
-    //    var colorCube = gameObjectCube.GetComponent<SpriteRenderer>().color;
-    //    var gameObjectToDestroy = new List<GameObject>();
-    //    gameObjectToDestroy.Add(gameObjectCube);
-    //    while (true)
-    //    {
-    //        int x = (int)gameObjectToDestroy[count].transform.position.x;
-    //        int y = (int)gameObjectToDestroy[count].transform.position.y;
-
-    //        var gameObjectCubes = new List<GameObject>();
-
-    //        CollectCrossGameObjects(gameObjectCubes, x, y);
-
-    //        foreach (var c in gameObjectCubes)
-    //        {
-    //            if (c.GetComponent<SpriteRenderer>().color == colorCube)
-    //            {
-    //                if (!gameObjectToDestroy.Contains(c))
-    //                    gameObjectToDestroy.Add(c);
-    //            }
-    //        }
-    //        count++;
-    //        if (count == gameObjectToDestroy.Count)
-    //        {
-    //            count = 0;
-    //            break;
-    //        }
-    //    }
-    //    if (gameObjectToDestroy.Count > 1)
-    //    {
-
-    //        foreach (var c in gameObjectToDestroy)
-    //        {
-    //            var pos = c.transform.position;
-    //            Destroy(c);
-    //            points[(int)pos.y, (int)pos.x].freeSpace = true;
-    //        }
-    //    }
-
-    //}
-
     void CollectCrossGameObjects(List<GameObject> gameObjectCubes, int x, int y)
     {
         int currentIteration = 0;
