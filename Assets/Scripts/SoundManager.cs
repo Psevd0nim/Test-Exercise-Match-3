@@ -23,6 +23,6 @@ public class SoundManager : MonoBehaviour
 
     public void FailClickMethod()
     {
-        AudioSource.PlayOneShot(FailClick, 0.1f);
+        AudioSource.PlayOneShot(FailClick, 0.25f);
     }
 }
