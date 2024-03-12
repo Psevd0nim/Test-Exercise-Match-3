@@ -30,6 +30,7 @@ public class CubeScript : MonoBehaviour
         if (_gameManager.points[Y, X].position == gameObject.transform.position)
         {
             gameObject.transform.DOShakePosition(1f, randomness: 10, strength: 0.1f);
+            SoundManager.Instance.FailClickMethod();
         }
     }
 

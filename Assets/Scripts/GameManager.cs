@@ -118,6 +118,7 @@ public class GameManager : MonoBehaviour
         if (gameObjectToDestroy.Count > 1)
         {
             DestroyCubes(gameObjectToDestroy);
+            SoundManager.Instance.SuccessClickMethod();
             return false;
         }
         return true;
