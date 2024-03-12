@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class CubeScript : MonoBehaviour
 {
-    public GameManager _gameManager;
+    private GameManager _gameManager;
     public int X;
     public int Y;
     private SpriteRenderer _spriteRenderer;
     [SerializeField] private GameObject Particle;
+    private ParticleSystem.MainModule particleSettings;
 
     private void Start()
     {
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        particleSettings = Particle.GetComponent<ParticleSystem>().main;
     }
 
     private void OnMouseDown()
@@ -33,6 +35,7 @@ public class CubeScript : MonoBehaviour
 
     public void DestroyCube()
     {
+        particleSettings.startColor = _spriteRenderer.color;
         Instantiate(Particle, gameObject.transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
