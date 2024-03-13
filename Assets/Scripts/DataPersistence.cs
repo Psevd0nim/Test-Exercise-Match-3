@@ -18,6 +18,7 @@ public class DataPersistence : MonoBehaviour
         Instance = this;
         menuManager = GameObject.Find("Canvas").GetComponent<MenuManager>();
         arrayNumber = menuManager.settingsData.arrayNumber;
+        //DontDestroyOnLoad(gameObject);
     }
 
     public void UpdateData()

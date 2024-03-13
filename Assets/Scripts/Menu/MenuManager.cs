@@ -15,11 +15,13 @@ public class MenuManager : MonoBehaviour
     public GameObject Settings;
     public SettingsData settingsData;
     public GameObject[] checkMarks;
+    public GameObject Modes;
+    public GameObject Levels;
+    //private DataPersistence dataPersistence = DataPersistence.Instance;
 
     private void Awake()
     {
         UploadData();
-        //LoadingScreen.transform.position
     }
 
     void UploadData()
@@ -35,7 +37,19 @@ public class MenuManager : MonoBehaviour
 
     public void PlayButton()
     {
+        MainMenu.SetActive(false);
+        Modes.SetActive(true);
+    }
+    
+    public void EndlessModeButton()
+    {
         StartCoroutine(LoadYourAsyncScene());
+    }
+
+    public void LevelsModeButton()
+    {
+        Modes.SetActive(false);
+        Levels.SetActive(true);
     }
 
     public void ChangeSkinButton(int number)
@@ -47,7 +61,7 @@ public class MenuManager : MonoBehaviour
 
     IEnumerator LoadYourAsyncScene()
     {
-        MainMenu.SetActive(false);
+        Modes.SetActive(false);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
         LoadingScreen.SetActive(true);
         while (!asyncLoad.isDone)
