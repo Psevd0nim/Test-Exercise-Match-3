@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.IO;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -12,10 +13,32 @@ public class MenuManager : MonoBehaviour
     public GameObject MainMenu;
     public GameObject LoadingScreen;
     public GameObject Settings;
+    private SettingsData settingsData;
+
+    private void Start()
+    {
+        settingsData = GameObject.Find("SettingsData").GetComponent<SettingsData>();
+        UploadData();
+    }
+
+    void UploadData()
+    {
+        string path = Application.persistentDataPath + "datasave.json";
+        if (File.Exists(path))
+        {
+            string jsonUpload = File.ReadAllText(path);
+            settingsData = JsonUtility.FromJson<SettingsData>(jsonUpload);
+        }
+    }
 
     public void PlayButton()
     {
         StartCoroutine(LoadYourAsyncScene());
+    }
+
+    public void ChangeSkinButton(int number)
+    {
+        settingsData.arrayNumber = number;
     }
 
     IEnumerator LoadYourAsyncScene()
@@ -39,6 +62,8 @@ public class MenuManager : MonoBehaviour
     {
         Settings.SetActive(false);
         MainMenu.SetActive(true);
+        string json = JsonUtility.ToJson(settingsData);
+        File.WriteAllText(Application.persistentDataPath + "datasave.json", json);
     }
 
     public void ExitButton()
