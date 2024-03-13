@@ -17,20 +17,19 @@ public class GameManager : MonoBehaviour
     private float yStep;
     private GameObject[] tempGameObjects;
     private MainSceneUI mainSceneUI;
-    private SettingsData settingsData;
 
 
     private void SkinSet()
     {
-        switch (settingsData.arrayNumber)
+        switch (DataPersistence.Instance.arrayNumber)
         {
-            case 1:
+            case 0:
                 tempGameObjects = IsometricCubes;
                 break;
-            case 2:
+            case 1:
                 tempGameObjects = GameCubes;
                 break;
-            case 3:
+            case 2:
                 tempGameObjects = DiceCubes;
                 break;
         }
@@ -39,7 +38,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         mainSceneUI = GameObject.Find("Canvas").GetComponent<MainSceneUI>();
-        settingsData = GameObject.Find("SettingsData").GetComponent<SettingsData>();
         SkinSet();
         //tempGameObjects = GameCubes;
         xStep = (RightUp.transform.position.x - LeftDown.transform.position.x) / 5;

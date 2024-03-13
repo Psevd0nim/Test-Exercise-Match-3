@@ -13,12 +13,13 @@ public class MenuManager : MonoBehaviour
     public GameObject MainMenu;
     public GameObject LoadingScreen;
     public GameObject Settings;
-    private SettingsData settingsData;
+    public SettingsData settingsData;
+    public GameObject[] checkMarks;
 
-    private void Start()
+    private void Awake()
     {
-        settingsData = GameObject.Find("SettingsData").GetComponent<SettingsData>();
         UploadData();
+        //LoadingScreen.transform.position
     }
 
     void UploadData()
@@ -29,6 +30,7 @@ public class MenuManager : MonoBehaviour
             string jsonUpload = File.ReadAllText(path);
             settingsData = JsonUtility.FromJson<SettingsData>(jsonUpload);
         }
+        checkMarks[settingsData.arrayNumber].SetActive(true);
     }
 
     public void PlayButton()
@@ -38,7 +40,9 @@ public class MenuManager : MonoBehaviour
 
     public void ChangeSkinButton(int number)
     {
+        checkMarks[settingsData.arrayNumber].SetActive(false);
         settingsData.arrayNumber = number;
+        checkMarks[settingsData.arrayNumber].SetActive(true);
     }
 
     IEnumerator LoadYourAsyncScene()
@@ -64,6 +68,7 @@ public class MenuManager : MonoBehaviour
         MainMenu.SetActive(true);
         string json = JsonUtility.ToJson(settingsData);
         File.WriteAllText(Application.persistentDataPath + "datasave.json", json);
+        DataPersistence.Instance.UpdateData();
     }
 
     public void ExitButton()
