@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
 {
     public GameObject MainMenu;
     public GameObject LoadingScreen;
+    public GameObject Settings;
 
     public void PlayButton()
     {
@@ -26,6 +27,18 @@ public class MenuManager : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    public void SettingsButton()
+    {
+        MainMenu.SetActive(false);
+        Settings.SetActive(true);
+    }
+
+    public void BackToMenuButton()
+    {
+        Settings.SetActive(false);
+        MainMenu.SetActive(true);
     }
 
     public void ExitButton()
