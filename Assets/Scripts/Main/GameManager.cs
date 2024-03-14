@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     private void Start()
     {
         mainSceneUI = GameObject.Find("Canvas").GetComponent<MainSceneUI>();
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
 
         foreach(var point in points)
         {
-            if(point.Y != 7)
+            if(point.Y != points.GetLength(0)-1)
                 point.upperPoint = points[point.Y + 1, point.X];
         }
 

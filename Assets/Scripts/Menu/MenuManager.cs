@@ -76,14 +76,32 @@ public class MenuManager : MonoBehaviour
         Settings.SetActive(true);
     }
 
-    public void BackToMenuButton()
+    public void BackToMenuButtonFromSettings()
     {
         Settings.SetActive(false);
         MainMenu.SetActive(true);
         string json = JsonUtility.ToJson(settingsData);
         File.WriteAllText(Application.persistentDataPath + "datasave.json", json);
-        DataPersistence.Instance.UpdateData();
+        UpdateData();
     }
+
+    public void BackToMenuButton()
+    {
+        MainMenu.SetActive(true);
+        Modes.SetActive(false);
+    }
+
+    public void BackToModesButton()
+    {
+        Modes.SetActive(true);
+        Levels.SetActive(false);
+    }
+
+    void UpdateData()
+    {
+        DataPersistence.Instance.arrayNumber = settingsData.arrayNumber;
+    }
+
 
     public void ExitButton()
     {

@@ -5,26 +5,17 @@ using UnityEngine;
 public class DataPersistence : MonoBehaviour
 {
     public static DataPersistence Instance { get; private set; }
-    private MenuManager menuManager;
     public int arrayNumber;
+    public int LevelNumber;
 
     private void Start()
     {
-        if(Instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
             return;
         }
         Instance = this;
-        menuManager = GameObject.Find("Canvas").GetComponent<MenuManager>();
-        arrayNumber = menuManager.settingsData.arrayNumber;
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
-
-    public void UpdateData()
-    {
-        arrayNumber = menuManager.settingsData.arrayNumber;
-    }
-
-
 }
