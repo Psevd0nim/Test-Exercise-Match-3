@@ -24,6 +24,7 @@ public class GameOver : MonoBehaviour
             if(loseCondition == gameManager.points.Length)
             {
                 GameOverObject.SetActive(true);
+                gameManager.GameOverOrWin = true;
                 break;
             }
         }

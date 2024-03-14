@@ -10,7 +10,7 @@ public class MainSceneUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI currentScore;
     [SerializeField] protected TextMeshProUGUI bestScore;
-    private int score = 0;
+    public int score = 0;
 
     private void Start()
     {
@@ -20,7 +20,7 @@ public class MainSceneUI : MonoBehaviour
     public void UpdateScore(int scorePoints)
     {
         score += scorePoints;
-        currentScore.text = $"Current Score : {score}";
+        currentScore.text = $"{score}";
     }
     
     public void BackToMenuButton()

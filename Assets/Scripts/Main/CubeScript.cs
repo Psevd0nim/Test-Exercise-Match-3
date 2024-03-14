@@ -21,6 +21,7 @@ public class CubeScript : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(!_gameManager.GameOverOrWin)
         if(_gameManager.GameCondition(gameObject))
             WrongChoose();
     }

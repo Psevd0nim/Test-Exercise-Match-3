@@ -17,11 +17,14 @@ public class GameManager : MonoBehaviour
     private float yStep;
     private GameObject[] tempGameObjects;
     private MainSceneUI mainSceneUI;
+    public bool GameOverOrWin;
+    private CurrentLevel currentLevel;
 
 
     private void SkinSet()
     {
-        switch (DataPersistence.Instance.arrayNumber)
+        //switch (DataPersistence.Instance.arrayNumber)
+        switch (1)
         {
             case 0:
                 tempGameObjects = IsometricCubes;
@@ -35,12 +38,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
+    void LevelSet()
+    {
+        //switch (DataPersistence.Instance.LevelNumber)
+        switch (1)
+        {
+            case 1:
+                currentLevel.LevelOne();
+                break;
+            case 2:
+                currentLevel.LevelTwo();
+                break;
+            case 3:
+                currentLevel.LevelThree();
+                break;
+            case 4:
+                currentLevel.LevelFour();
+                break;
+            default:
+                currentLevel.EndlessMode();
+                break;
+        }
+    }
 
     private void Start()
     {
         mainSceneUI = GameObject.Find("Canvas").GetComponent<MainSceneUI>();
+        currentLevel = GameObject.Find("CurrentLevel").GetComponent<CurrentLevel>();
         SkinSet();
+        LevelSet();
         //tempGameObjects = GameCubes;
         xStep = (RightUp.transform.position.x - LeftDown.transform.position.x) / 5;
         yStep = (RightUp.transform.position.y - LeftDown.transform.position.y) / 8;
@@ -105,8 +131,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
-
     public bool GameCondition(GameObject gameObjectCube)
     {
         var colorCube = gameObjectCube.GetComponent<SpriteRenderer>().color;
@@ -156,7 +180,6 @@ public class GameManager : MonoBehaviour
         }
         mainSceneUI.UpdateScore(pointPerUnit * gameObjectToDestroy.Count);
     }
-
 
     void CollectCrossGameObjects(List<GameObject> gameObjectCubes, int x, int y)
     {
