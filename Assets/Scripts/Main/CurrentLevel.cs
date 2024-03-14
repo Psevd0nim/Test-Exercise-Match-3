@@ -7,7 +7,9 @@ public class CurrentLevel : MonoBehaviour
 {
     public GameObject Moves;
     public GameObject Time;
-    public TextMeshProUGUI Goal;
+    public GameObject Goal;
+    public GameObject BestScore;
+    public TextMeshProUGUI GoalText;
     public TextMeshProUGUI MovesText;
     public TextMeshProUGUI TimeText;
     public Win CheckWin;
@@ -17,13 +19,13 @@ public class CurrentLevel : MonoBehaviour
 
     public void LevelOne()
     {
-        Goal.text = "2500";
+        GoalText.text = "2500";
         CheckWin.LevelOneCheck = true;
     }
 
     public void LevelTwo()
     {
-        Goal.text = "2500";
+        GoalText.text = "2500";
         CheckWin.LevelTwoCheck = true;
         Moves.SetActive(true);
         MovesText.text = $"{MovesLeft}";
@@ -31,7 +33,7 @@ public class CurrentLevel : MonoBehaviour
 
     public void LevelThree()
     {
-        Goal.text = "2500";
+        GoalText.text = "2500";
         CheckWin.LevelThreeCheck = true;
         Time.SetActive(true);
         StartCoroutine(Timer());
@@ -50,7 +52,7 @@ public class CurrentLevel : MonoBehaviour
 
     public void LevelFour()
     {
-        Goal.text = "3000";
+        GoalText.text = "3000";
         CheckWin.LevelFourCheck = true;
         Moves.SetActive(true);
         Time.SetActive(true);
@@ -59,6 +61,7 @@ public class CurrentLevel : MonoBehaviour
 
     public void EndlessMode()
     {
-
+        Goal.SetActive(false);
+        BestScore.SetActive(true);
     }
 }

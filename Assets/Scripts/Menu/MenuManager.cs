@@ -26,7 +26,7 @@ public class MenuManager : MonoBehaviour
 
     void UploadData()
     {
-        string path = Application.persistentDataPath + "datasave.json";
+        string path = Application.persistentDataPath + "/datasave.json";
         if (File.Exists(path))
         {
             string jsonUpload = File.ReadAllText(path);
@@ -81,7 +81,7 @@ public class MenuManager : MonoBehaviour
         Settings.SetActive(false);
         MainMenu.SetActive(true);
         string json = JsonUtility.ToJson(settingsData);
-        File.WriteAllText(Application.persistentDataPath + "datasave.json", json);
+        File.WriteAllText(Application.persistentDataPath + "/datasave.json", json);
         UpdateData();
     }
 
