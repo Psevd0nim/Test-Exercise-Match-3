@@ -11,6 +11,8 @@ public class Win : MonoBehaviour
     private MainSceneUI MainSceneUI;
     private GameManager gameManager;
     public GameObject WinObject;
+    public CurrentLevel CurrentLevel;
+    public GameObject GameOverObject;
 
     private void Start()
     {
@@ -19,16 +21,62 @@ public class Win : MonoBehaviour
     }
     private void Update()
     {
-        if (LevelOneCheck)
-            LevelOne();
+        if (LevelOneCheck) LevelOne();
+        if (LevelTwoCheck) LevelTwo();
+        if (LevelThreeCheck) LevelThree();
+        if (LevelFourCheck) LevelFour();
     }
 
     void LevelOne()
     {
-        if(MainSceneUI.score > 2500)
+        if(MainSceneUI.score >= 2500)
         {
             WinObject.SetActive(true);
             gameManager.GameOverOrWin = true;
+        }
+    }
+
+    void LevelTwo()
+    {
+        if (MainSceneUI.score >= 2500)
+        {
+            WinObject.SetActive(true);
+            gameManager.GameOverOrWin = true;
+        }
+        else if(CurrentLevel.MovesLeft == 0)
+        {
+            GameOverObject.SetActive(true);
+        }
+        
+    }
+
+    void LevelThree()
+    {
+        if (MainSceneUI.score >= 2500)
+        {
+            WinObject.SetActive(true);
+            gameManager.GameOverOrWin = true;
+            CurrentLevel.CoroutineStop = true;
+        }
+        if (CurrentLevel.TimeLeft == 0)
+        {
+            GameOverObject.SetActive(true);
+            CurrentLevel.CoroutineStop = true;
+        }
+    }
+
+    void LevelFour()
+    {
+        if (MainSceneUI.score >= 3000)
+        {
+            WinObject.SetActive(true);
+            gameManager.GameOverOrWin = true;
+            CurrentLevel.CoroutineStop = true;
+        }
+        else if(CurrentLevel.MovesLeft == 0 || CurrentLevel.TimeLeft == 0)
+        {
+            GameOverObject.SetActive(true);
+            CurrentLevel.CoroutineStop = true;
         }
     }
 }

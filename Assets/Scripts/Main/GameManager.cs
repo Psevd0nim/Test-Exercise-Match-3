@@ -23,8 +23,8 @@ public class GameManager : MonoBehaviour
 
     private void SkinSet()
     {
-        //switch (DataPersistence.Instance.arrayNumber)
-        switch (1)
+        switch (DataPersistence.Instance.arrayNumber)
+        //switch (1)
         {
             case 0:
                 tempGameObjects = IsometricCubes;
@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
 
     void LevelSet()
     {
-        //switch (DataPersistence.Instance.LevelNumber)
-        switch (1)
+        switch (DataPersistence.Instance.LevelNumber)
+        //switch (1)
         {
             case 1:
                 currentLevel.LevelOne();
@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
         {
             DestroyCubes(gameObjectToDestroy);
             SoundManager.Instance.SuccessClickMethod();
+            currentLevel.MovesText.text = $"{--currentLevel.MovesLeft}";
             return false;
         }
         return true;

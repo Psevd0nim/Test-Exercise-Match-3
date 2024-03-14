@@ -8,6 +8,7 @@ public class GameOver : MonoBehaviour
     int count = 0;
     private int loseCondition;
     public GameObject GameOverObject;
+    public CurrentLevel CurrentLevel;
 
     private void Start()
     {
@@ -25,6 +26,7 @@ public class GameOver : MonoBehaviour
             {
                 GameOverObject.SetActive(true);
                 gameManager.GameOverOrWin = true;
+                CurrentLevel.CoroutineStop = true;
                 break;
             }
         }
