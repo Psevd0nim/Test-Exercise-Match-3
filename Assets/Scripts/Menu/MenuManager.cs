@@ -120,7 +120,6 @@ public class MenuManager : MonoBehaviour
         DataPersistence.Instance.SoundVolume = soundSlider.value;
     }
 
-
     public void ExitButton()
     {
 #if UNITY_EDITOR
