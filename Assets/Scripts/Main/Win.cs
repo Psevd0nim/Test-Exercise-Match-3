@@ -58,7 +58,7 @@ public class Win : MonoBehaviour
             gameManager.GameOverOrWin = true;
             CurrentLevel.CoroutineStop = true;
         }
-        if (CurrentLevel.TimeLeft == 0)
+        if (CurrentLevel.TimeLeft == -1)
         {
             GameOverObject.SetActive(true);
             CurrentLevel.CoroutineStop = true;
@@ -73,7 +73,7 @@ public class Win : MonoBehaviour
             gameManager.GameOverOrWin = true;
             CurrentLevel.CoroutineStop = true;
         }
-        else if(CurrentLevel.MovesLeft == 0 || CurrentLevel.TimeLeft == 0)
+        else if(CurrentLevel.MovesLeft == 0 || CurrentLevel.TimeLeft == -1)
         {
             GameOverObject.SetActive(true);
             CurrentLevel.CoroutineStop = true;

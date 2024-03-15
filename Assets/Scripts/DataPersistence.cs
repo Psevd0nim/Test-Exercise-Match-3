@@ -7,8 +7,9 @@ public class DataPersistence : MonoBehaviour
     public static DataPersistence Instance { get; private set; }
     public int arrayNumber;
     public int LevelNumber;
+    public float SoundVolume;
 
-    private void Start()
+    private void Awake()
     {
         if (Instance != null)
         {

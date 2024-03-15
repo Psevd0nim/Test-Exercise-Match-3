@@ -42,7 +42,7 @@ public class MainSceneUI : MonoBehaviour
     
     public void BackToMenuButton()
     {
-        if (score > bestScore)
+        if (score > bestScore && DataPersistence.Instance.LevelNumber == 0)
         {
             DataScore dataScore = new DataScore();
             dataScore.bestScoreData = score;

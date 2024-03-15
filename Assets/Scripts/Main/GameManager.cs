@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        AudioListener.volume = DataPersistence.Instance.SoundVolume;
         mainSceneUI = GameObject.Find("Canvas").GetComponent<MainSceneUI>();
         currentLevel = GameObject.Find("CurrentLevel").GetComponent<CurrentLevel>();
         SkinSet();

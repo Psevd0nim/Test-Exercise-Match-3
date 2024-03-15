@@ -8,4 +8,5 @@ using UnityEngine;
 public class SettingsData
 {
     public int arrayNumber;
+    public float SoundVolume;
 }

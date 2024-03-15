@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.IO;
+using UnityEngine.UI;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -17,6 +19,7 @@ public class MenuManager : MonoBehaviour
     public GameObject[] checkMarks;
     public GameObject Modes;
     public GameObject Levels;
+    [SerializeField] private Slider soundSlider;
     //private DataPersistence dataPersistence = DataPersistence.Instance;
 
     private void Awake()
@@ -31,6 +34,14 @@ public class MenuManager : MonoBehaviour
         {
             string jsonUpload = File.ReadAllText(path);
             settingsData = JsonUtility.FromJson<SettingsData>(jsonUpload);
+            soundSlider.value = settingsData.SoundVolume;
+            DataPersistence.Instance.SoundVolume = settingsData.SoundVolume;
+            DataPersistence.Instance.arrayNumber = settingsData.arrayNumber;
+        }
+        else
+        {
+            DataPersistence.Instance.SoundVolume = 0.5f;
+            soundSlider.value = 0.5f;
         }
         checkMarks[settingsData.arrayNumber].SetActive(true);
     }
@@ -44,6 +55,7 @@ public class MenuManager : MonoBehaviour
     public void EndlessModeButton()
     {
         StartCoroutine(LoadYourAsyncScene());
+        DataPersistence.Instance.LevelNumber = 0;
     }
 
     public void LevelsModeButton()
@@ -76,6 +88,11 @@ public class MenuManager : MonoBehaviour
         Settings.SetActive(true);
     }
 
+    public void ChangeVolumeSlider()
+    {
+        settingsData.SoundVolume = soundSlider.value;
+    }
+
     public void BackToMenuButtonFromSettings()
     {
         Settings.SetActive(false);
@@ -100,6 +117,7 @@ public class MenuManager : MonoBehaviour
     void UpdateData()
     {
         DataPersistence.Instance.arrayNumber = settingsData.arrayNumber;
+        DataPersistence.Instance.SoundVolume = soundSlider.value;
     }
 
 

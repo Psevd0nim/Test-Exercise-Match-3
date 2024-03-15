@@ -41,7 +41,7 @@ public class CurrentLevel : MonoBehaviour
 
     IEnumerator Timer()
     {
-        while (TimeLeft != 0)
+        while (TimeLeft != -1)
         {
             TimeText.text = $"{TimeLeft--}";
             yield return new WaitForSeconds(1);
